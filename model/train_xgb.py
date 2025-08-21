@@ -8,7 +8,7 @@ def load():
     w = pd.read_csv(DATA/"weather_hourly.csv", parse_dates=["ts_utc"])
     o = pd.read_csv(DATA/"ops_schedule.csv", parse_dates=["ts_utc"])
     c = pd.read_csv(DATA/"calendar.csv", parse_dates=["date"])
-    a["date"] = a.ts_utc.dt.date
+    a["date"] = a.ts_utc.dt.normalize()
     a = a.merge(w, on=["site_id","ts_utc"]).merge(o, on=["site_id","ts_utc"])
     a = a.merge(c, left_on="date", right_on="date", how="left")
     a["hour"] = a.ts_utc.dt.hour
