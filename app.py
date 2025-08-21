@@ -12,8 +12,12 @@ def main(site_id:str, horizon:int):
     feats = FeatureStoreAgent().run(site_id, sig)
     fc   = ForecasterAgent().run(feats)
     plan = PlannerAgent().run(fc)
-    brief= BriefingAgent().run(site_id, fc.join(feats), plan)
-
+    merged = fc.merge(
+        feats[["site_id", "ts_utc", "precip_flag", "is_holiday"]],
+        on=["site_id", "ts_utc"],
+        how="left"
+    )
+    brief = BriefingAgent().run(site_id, merged, plan)
     save_outputs(site_id, fc, plan, brief)
     save_forecast_chart(site_id, fc)
     print("Forecast & plan ready ✅")
