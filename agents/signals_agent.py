@@ -18,7 +18,7 @@ class SignalsAgent:
         base = base.merge(last_w.drop(columns=["ts_utc"]), on="site_id", how="left")
         base = base.merge(last_o.drop(columns=["ts_utc"]), on="site_id", how="left")
         base["date"] = base.ts_utc.dt.normalize()
-        c["date"] = pd.to_datetime(c["date"]).dt.normalize()
+        c["date"] = pd.to_datetime(c["date"], utc=True))
         base = base.merge(c, on="date", how="left")
         return base[["site_id","ts_utc","temp_c","precip_flag","rooms_staffed",
                      "providers_on_shift","is_holiday","school_in_session_flag"]]
