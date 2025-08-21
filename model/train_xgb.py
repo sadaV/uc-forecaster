@@ -10,6 +10,7 @@ def load():
     c = pd.read_csv(DATA/"calendar.csv", parse_dates=["date"])
     a["date"] = a.ts_utc.dt.normalize()
     a = a.merge(w, on=["site_id","ts_utc"]).merge(o, on=["site_id","ts_utc"])
+    c["date"] = pd.to_datetime(c["date"]).dt.normalize()
     a = a.merge(c, left_on="date", right_on="date", how="left")
     a["hour"] = a.ts_utc.dt.hour
     a["dow"]  = a.ts_utc.dt.dayofweek
