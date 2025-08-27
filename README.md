@@ -61,7 +61,6 @@ Expected demand: ~116 arrivals (P50)
 Peak around 14:00 with ~18 arrivals  
 Key factors: holiday  
   
-Recommended actions:  
-- Add one PA to triage from 13:00–15:00  
-- Open Room 6 for overflow  
-
+Recommended actions:
+- Staff 1 provider(s) during peak
+- Keep 2 rooms open
