@@ -13,13 +13,15 @@ class UCPlannerFlow:
     
         print("\n🚀 Starting UCPlannerFlow for site:", site_id)
         print("=========================================")
-    
+        time.sleep(0.5)
+
         # 1) Signals
         print("\n[1/5] 🔎 Collecting signals...")
         sig_out = self.signals.handle(state)
         state.update(sig_out)
         print(f"    ✓ Signals ready: {len(state['signals_df'])} rows")
-    
+        time.sleep(0.5)
+
         # 2) Feature store
         print("\n[2/5] 🗂️  Building feature set...")
         fs_out = self.fstore.handle({
@@ -28,19 +30,22 @@ class UCPlannerFlow:
         })
         state.update(fs_out)
         print(f"    ✓ Features ready: {len(state['features_df'].columns)} features")
-    
+        time.sleep(0.5)
+
         # 3) Forecast
         print("\n[3/5] 📈 Running forecast model (XGBoost)...")
         fc_out = self.forecast.handle({"features_df": state["features_df"]})
         state.update(fc_out)
         print(f"    ✓ Forecast ready: {len(state['forecast_df'])} horizon steps")
-    
+        time.sleep(0.5)
+
         # 4) Planner
         print("\n[4/5] 📋 Creating staffing plan...")
         plan_out = self.planner.handle({"forecast_df": state["forecast_df"]})
         state.update(plan_out)
         print(f"    ✓ Plan ready: {len(state['plan_df'])} recommendations")
-    
+        time.sleep(0.5)
+
         # 5) Briefing
         print("\n[5/5] 🗨️  Generating briefing...")
         brief_out = self.brief.handle({
@@ -51,7 +56,8 @@ class UCPlannerFlow:
         })
         state.update(brief_out)
         print("    ✓ Briefing generated")
-    
+        time.sleep(0.5)
+
         print("\n✅ Flow complete! Results available in outputs/")
     
         return state
