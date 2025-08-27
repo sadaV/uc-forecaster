@@ -11,33 +11,48 @@ class UCPlannerFlow:
     def run(self, site_id: str, horizon: int = 12):
         state = {"site_id": site_id, "horizon": horizon}
     
+        print("\n🚀 Starting UCPlannerFlow for site:", site_id)
+        print("=========================================")
+    
         # 1) Signals
-        sig_out = self.signals.handle(state)                 
+        print("\n[1/5] 🔎 Collecting signals...")
+        sig_out = self.signals.handle(state)
         state.update(sig_out)
+        print(f"    ✓ Signals ready: {len(state['signals_df'])} rows")
     
         # 2) Feature store
+        print("\n[2/5] 🗂️  Building feature set...")
         fs_out = self.fstore.handle({
             "site_id": state["site_id"],
             "signals_df": state["signals_df"],
-        })                                                   
+        })
         state.update(fs_out)
+        print(f"    ✓ Features ready: {len(state['features_df'].columns)} features")
     
         # 3) Forecast
+        print("\n[3/5] 📈 Running forecast model (XGBoost)...")
         fc_out = self.forecast.handle({"features_df": state["features_df"]})
-        state.update(fc_out)                                 
+        state.update(fc_out)
+        print(f"    ✓ Forecast ready: {len(state['forecast_df'])} horizon steps")
     
         # 4) Planner
+        print("\n[4/5] 📋 Creating staffing plan...")
         plan_out = self.planner.handle({"forecast_df": state["forecast_df"]})
-        state.update(plan_out)                              
+        state.update(plan_out)
+        print(f"    ✓ Plan ready: {len(state['plan_df'])} recommendations")
     
         # 5) Briefing
+        print("\n[5/5] 🗨️  Generating briefing...")
         brief_out = self.brief.handle({
             "site_id": state["site_id"],
             "forecast_df": state["forecast_df"],
             "features_df": state["features_df"],  # for precip/holiday flags
             "plan_df": state["plan_df"],
-        })                                                   
+        })
         state.update(brief_out)
+        print("    ✓ Briefing generated")
+    
+        print("\n✅ Flow complete! Results available in outputs/")
     
         return state
-
+    
