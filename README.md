@@ -46,10 +46,10 @@ Together, they behave like a **team of microservices** in an agentic flow.
 
 
 **Outputs are written to**   
-outputs/:  
-  forecast_<site>.csv  
-  plan_<site>.json  
-  briefing_<site>.md  
+__outputs/:__  
+&nbsp;&nbsp;&nbsp;&nbsp;forecast_<site>.csv   
+ &nbsp;&nbsp;&nbsp;&nbsp;plan_<site>.json  
+&nbsp;&nbsp;&nbsp;&nbsp;briefing_<site>.md  
 
 ---
 
