@@ -40,7 +40,9 @@ class BriefingAgent:
         )
     
         # Actions from planner
-        actions = "\n".join([f"- {row['note']}" for _, row in plan_df.iterrows()])
+        actions = f"- Staff {plan_df['providers'].max()} provider(s) during peak\n" \
+          f"- Keep {plan_df['rooms'].max()} rooms open\n"
+
     
         return summary + actions
 
