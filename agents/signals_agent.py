@@ -9,7 +9,7 @@ class SignalsAgent:
         c = pd.read_csv("data/calendar.csv", parse_dates=["date"])
         last_ts = a[a.site_id==site_id].ts_utc.max()
         future_idx = pd.date_range(last_ts + pd.Timedelta(hours=1),
-                                   periods=horizon_hours, freq="H", tz="UTC")
+                                   periods=horizon_hours, freq="h", tz="UTC")
         # naive future signals: repeat last known ops/weather for simplicity (MVP)
         base = pd.DataFrame({"site_id":site_id, "ts_utc":future_idx})
         last_w = w[(w.site_id==site_id) & (w.ts_utc==last_ts)].tail(1)
