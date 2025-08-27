@@ -6,3 +6,4 @@ matplotlib
 pydantic
 python-dotenv
 boto3          
+strands-agents
